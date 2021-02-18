@@ -42,7 +42,7 @@ public class NetCat {
 
 		InputStream input1 = System.in;
 		OutputStream output1 = socket.getOutputStream();
-		Thread thread1 = new Thread(new Pipe(input1, output1));
+		Thread thread1 = new Thread(pipe(input1, output1));
 		thread1.start();
 		thread1.join();
 		socket.shutdownOutput();
@@ -56,35 +56,29 @@ public class NetCat {
 
 		InputStream input2 = socket.getInputStream();
 		PrintStream output2 = System.out;
-		Thread thread2 = new Thread(new Pipe(input2, output2));
+		Thread thread2 = new Thread(pipe(input2, output2));
 		thread2.start();
 		thread2.join();
 		socket.shutdownOutput();
 	}
-	static class Pipe implements Runnable {
-		private static final int BUFFER_SIZE = 8192;
 
-		private final InputStream input;
-		private final OutputStream output;
-
-		public Pipe(InputStream input, OutputStream output) {
-			this.input = input;
-			this.output = output;
-		}
-
-		@Override
-		public void run() {
-			try {
-				byte[] bb = new byte[BUFFER_SIZE];
-				int read;
-				while ((read = input.read(bb)) > -1) {
-					output.write(bb, 0, read);
-					output.flush();
+	private static Runnable pipe(final InputStream input, final OutputStream output) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				try {
+					final int BUFFER_SIZE = 8192;
+					byte[] bb = new byte[BUFFER_SIZE];
+					int read;
+					while ((read = input.read(bb)) > -1) {
+						output.write(bb, 0, read);
+						output.flush();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+					throw new RuntimeException(e);
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
-				throw new RuntimeException(e);
 			}
-		}
+		};
 	}
 }
