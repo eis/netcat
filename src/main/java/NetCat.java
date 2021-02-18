@@ -15,10 +15,10 @@ public class NetCat {
 				int port = Integer.parseInt(args[1]);
 				connect(args[2], port);
 			} else {
-				System.out.println("usage: netcat [-l] -p <port> [<host>]");
-				System.out.println("");
-				System.out.println(" -l         listen mode");
-				System.out.println(" -p <port>  port number");
+				System.out.println("Usage: netcat -l -p <port>");
+				System.out.println("       (to listen to a port)");
+				System.out.println("   or  netcat -p <port> <host>");
+				System.out.println("       (to connect to a port)");
 			}
 		}
 	}
@@ -87,6 +87,4 @@ public class NetCat {
 			}
 		}
 	}
-
-
 }

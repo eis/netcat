@@ -2,10 +2,10 @@ Netcat tool in java
 ===================
 
 <pre>
-usage: netcat [-l] -p &lt;port&gt; [&lt;host&gt;]
-
- -l         listen mode
- -p &lt;port&gt;  port number
+Usage: netcat -l -p &lt;port&gt;
+       (to listen to a port)
+   or  netcat -p &lt;port&gt; &lt;host&gt;
+       (to connect to a port)
 </pre>
 
 Listen
